@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: List repository files
         run: ls -la
       - name: Basic project check
@@ -19,3 +19,14 @@ jobs:
           echo "Running CI for CampusEats Task Tracker"
           test -f README.md && echo "README found"
           node --check src/tasks.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Test task tracker
+        run: npm test
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
